@@ -52,10 +52,13 @@ def print_menu(title, list_options, exit_message):  # working
 # @title: string - title of the "input section"
 # @inputs: list of string - list of the received values from the user
 
-def get_inputs(list_labels, title):
-    inputs = []
 
-    # your code
+def get_inputs(list_labels, title):  # working
+    inputs = []
+    print(title)
+    for i in range(len(list_labels)):
+        user_input = input(list_labels[i] + ": ")
+        inputs.append(user_input)
 
     return inputs
 
@@ -78,3 +81,6 @@ print_menu(title, list_options, exit_message)
 '''label = "csao"
 result = ["hali", 3, "csecs", ["alma", 2]]
 print_result(result, label)'''
+'''list_labels = ["1", "masodik"]
+title = "Input section"
+get_inputs(list_labels, title)'''
