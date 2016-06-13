@@ -14,7 +14,7 @@ import string
 #
 # @table: list of list
 # @generated: string - generated random string (unique in the @table)
-def generate_random(table):
+def generate_random(table):  # working
     good_pw = [0, 0, 0, 0]
     chars = string.ascii_letters + string.digits + "[!@#$%^&*()?]"
     generated = []
@@ -39,5 +39,9 @@ def generate_random(table):
     else:
         return generate_random(table)
 
-# table = [[1], [2]]
-# print(generate_random(table))
+
+def generate_start(title, function_list, go_back):
+    print(title)
+    for i in range(len(function_list)):
+        print("(%d) %s" % (((i+1) % 7), function_list[i]))
+    print("(0) %s" % go_back)
