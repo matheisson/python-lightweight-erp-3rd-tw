@@ -23,10 +23,8 @@ def print_table(table, title_list):
 # @result: string or list or dictionary - result of the special function
 # @label: string - label of the result
 def print_result(result, label):
-
-    # your code
-
-    pass
+    print(label)
+    print(result)
 
 
 # This function needs to generate outputs like this:
@@ -42,7 +40,7 @@ def print_result(result, label):
 # @title: string - title of the menu
 # @list_options: list of strings - the options in the menu
 # @exit_message: string - the last option with (0) (example: "Back to main menu")
-def print_menu(title, list_options, exit_message):
+def print_menu(title, list_options, exit_message):  # working
     print(title)
     for i in range(len(list_options)):
         print("(%d) %s" % (((i+1) % 7), list_options[i]))
@@ -77,3 +75,6 @@ exit_message = "bye"
 
 print_menu(title, list_options, exit_message)
 '''
+'''label = "csao"
+result = ["hali", 3, "csecs", ["alma", 2]]
+print_result(result, label)'''
