@@ -59,17 +59,14 @@ def get_inputs(list_labels, title):  # working
     for i in range(len(list_labels)):
         user_input = input(list_labels[i] + ": ")
         inputs.append(user_input)
-
     return inputs
 
 
 # This function needs to print an error message. (example: Error: @message)
 #
 # @message: string - the error message
-def print_error_message(message):
-
-    # your code
-
+def print_error_message(message):  # working
+    print("Error: %s" % message)
     pass
 
 '''title = "hello"
@@ -84,3 +81,5 @@ print_result(result, label)'''
 '''list_labels = ["1", "masodik"]
 title = "Input section"
 get_inputs(list_labels, title)'''
+'''error = "hulye vagy"
+print_error_message(error)'''
