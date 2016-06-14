@@ -19,37 +19,53 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 # common module
 common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
-file_name = "items.csv"
-table = data_manager.get_table_from_file(file_name)
+
+
+def get_table():
+    return data_manager.get_table_from_file(current_file_path + "/items.csv")
+
+
+def choose_function(table):
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+    id_ = 0
+    year = 0
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        remove(table, id_)
+    elif option == "4":
+        update(table, id_)
+    elif option == "5":
+        which_year_max(table)
+    elif option == "6":
+        avg_amount(table, year)
+    elif option == "0":
+        return "break"
+    else:
+        raise KeyError("There is no such option.")
+
 # start this module by a module menu like the main menu
 # user need to go back to the main menu from here
 # we need to reach the default and the special functions of this module from the module menu
 
 
 def start_module():
-    title = "Accounting menu"
-    list_options = ["Show table", "Add", "Remove", "Update",
-                    "Which year has the highest profit?", "What is the average (per item) profit in a given year?"]
-    exit_message = "back (press 0)"
-    acc_menu = ui.print_menu(title, list_options, exit_message)
-    inputs = ui.get_inputs(["Choose menu"], "")
-    option = inputs[0]
-    if option == "1":
-        show_table(table)
-    elif option == "2":
-        add(table)
-    elif option == "3":
-        remove(table)
-    elif option == "4":
-        update(table)
-    elif option == "5":
-        which_year_max(table)
-    elif option == "6":
-        avg_amount(table)
-    elif option == "0":
-        ui.print_menu(0)
-    else:
-        raise KeyError("There is no such option.")
+    title = "Accounting Manager"
+    functions = ["Show Table", "Add to Table", "Remove from Table", "Update Element", "Highest Profit",
+                 "Average profit it given year"]
+    back = "Back to Main Menu"
+    table = get_table()
+    while True:
+        ui.print_menu(title, functions, back)
+        try:
+            valid = choose_function(table)
+            if valid == "break":
+                break
+        except KeyError as err:
+            ui.print_error_message(err)
 
 
 # print the default table of records from the file
