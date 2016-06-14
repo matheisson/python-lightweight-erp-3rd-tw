@@ -20,15 +20,48 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 
+def get_table():
+    return data_manager.get_table_from_file("items.csv")
+
+
+def choose_function():
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == "1":
+            show_table(table)
+        elif option == "2":
+            add(table)
+        elif option == "3":
+            remove(table, id_)
+        elif option == "4":
+            update(table, id_)
+        elif option == "5":
+            which_year_max(table)
+        elif option == "6":
+            avg_amount(table, year)
+        elif option == "0":
+            return "break"
+        else:
+            raise KeyError("There is no such option.")
 # start this module by a module menu like the main menu
 # user need to go back to the main menu from here
 # we need to reach the default and the special functions of this module from the module menu
-#
+
+
 def start_module():
-
-    # you code
-
-    pass
+    title = "Accounting Manager"
+    functions = ["Show Table", "Add to Table", "Remove from Table", "Update Element", "Highest Profit",
+                 "Average profit it given year"]
+    back = "Back to Main Menu"
+    table = get_table()
+    while True:
+        ui.print_menu(title, functions, back)
+        try:
+            valid = choose_function()
+            if valid == "break":
+                break
+        except KeyError as err:
+            ui.print_error_message(err)
 
 
 # print the default table of records from the file
