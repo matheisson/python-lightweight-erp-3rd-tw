@@ -24,6 +24,33 @@ common = SourceFileLoader("common", current_file_path + "/../common.py").load_mo
 # we need to reach the default and the special functions of this module from the module menu
 #
 
+def get_table():
+    return data_manager.get_table_from_file(current_file_path + "/customers.csv")
+
+
+def choose_function(table):
+    inputs = ui.get_inputs(["Choose menu: "], "")
+    option = inputs[0]
+    id_ = 0
+    year = 0
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        remove(table, id_)
+    elif option == "4":
+        update(table, id_)
+    elif option == "5":
+        get_longest_name_id(table)
+    elif option == "6":
+        get_subscribed_emails(table)
+    elif option == "0":
+        return "break"
+    else:
+        raise KeyError("There is no such option.")
+
+
 def start_module():
     title = "Customer Relations Manager"
     list_options = ["Show Table", "Add to Table", "Remove from Table", "Update Element", "IDs of the longest names",
@@ -95,14 +122,15 @@ def get_longest_name_id(table):
     names = [str(i[1]) for i in table]
     max_names = max(len(i) for i in names)  # how long is the longest name
     longest_names = [i for i in names if len(i) == max_names]  # customers with the longest names
-    max_ids = []
+    top_name = min(longest_names)
+    max_id = []
     for row in table:
-        for i in longest_names:
-            if i in longest_names and i in row:
-                max_ids.append(row[0])
+        if top_name in row:
+            max_id.append(row[0])
     label = "ID of customers with longest names"
-    ui.print_result(max_ids, label)
-    return max_ids
+    ui.print_result(max_id, label)
+
+    return max_id
 
 # the question: Which customers have subscribed to the newsletter?
 # return type: list of string (where string is like email+separator+name, separator=";")
@@ -111,9 +139,6 @@ def get_longest_name_id(table):
 def get_subscribed_emails(table):
     table = data_manager.get_table_from_file(current_file_path + '/customers.csv')
     title_list = "Subscribers"
-    with open('customers.csv', "r") as file:
-        lines = file.readlines()
-    table = [element.replace("\n", "").split(";") for element in lines]
     subscribed = []
     for i in table:
         if int(i[3]) == 1:
