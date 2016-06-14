@@ -20,29 +20,33 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 
+
 def get_table():
     return data_manager.get_table_from_file(current_file_path + "/items.csv")
 
 
-def choose_function():
-        inputs = ui.get_inputs(["Please enter a number: "], "")
-        option = inputs[0]
-        if option == "1":
-            show_table(table)
-        elif option == "2":
-            add(table)
-        elif option == "3":
-            remove(table, id_)
-        elif option == "4":
-            update(table, id_)
-        elif option == "5":
-            which_year_max(table)
-        elif option == "6":
-            avg_amount(table, year)
-        elif option == "0":
-            return "break"
-        else:
-            raise KeyError("There is no such option.")
+def choose_function(table):
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+    id_ = 0
+    year = 0
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        remove(table, id_)
+    elif option == "4":
+        update(table, id_)
+    elif option == "5":
+        which_year_max(table)
+    elif option == "6":
+        avg_amount(table, year)
+    elif option == "0":
+        return "break"
+    else:
+        raise KeyError("There is no such option.")
+
 # start this module by a module menu like the main menu
 # user need to go back to the main menu from here
 # we need to reach the default and the special functions of this module from the module menu
@@ -57,7 +61,7 @@ def start_module():
     while True:
         ui.print_menu(title, functions, back)
         try:
-            valid = choose_function()
+            valid = choose_function(table)
             if valid == "break":
                 break
         except KeyError as err:
@@ -68,10 +72,9 @@ def start_module():
 #
 # @table: list of lists
 def show_table(table):
-
-    # your code
-
-    pass
+    title_list = ["ID", "Month", "Day", "Year", "Type (in/out)", "Amount ($)"]
+    show_tbl = ui.print_table(table, title_list)
+    return table
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table
@@ -113,10 +116,29 @@ def update(table, id_):
 # the question: Which year has the highest profit? (profit=in-out)
 # return the answer (number)
 def which_year_max(table):
-
-    # your code
-
-    pass
+    t_income = {}
+    t_outcome = {}
+    for t in table:
+        if t[4] == "in":
+            year = t[3]
+            if year in t_income:
+                t_income[year] += int(t[5])
+            else:
+                t_income.update({year: int(t[5])})
+        elif t[4] == "out":
+            year = t[3]
+            if year in t_outcome:
+                t_outcome[year] += int(t[5])
+            else:
+                t_outcome.update({year: int(t[5])})
+    profit = [(t_income["2015"] - t_outcome["2015"]), (t_income["2016"] - t_outcome["2016"])]
+    max_profit = max(profit)
+    if max_profit == profit[0]:
+        year_max = 2015
+    elif max_profit == profit[1]:
+        year_max = 2016
+    print(year_max)
+    return year_max
 
 
 # the question: What is the average (per item) profit in a given year? [(profit)/(items count) ]
@@ -126,3 +148,6 @@ def avg_amount(table, year):
     # your code
 
     pass
+
+
+start_module()

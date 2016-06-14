@@ -12,6 +12,7 @@
 # @table: list of lists - the table to print out
 # @title_list: list of strings - the head of the table
 def print_table(table, title_list):
+    print()
     for i in range(len(title_list)):
         print(title_list[i], end="\t")
     for i in range(len(table)):
@@ -43,6 +44,7 @@ def print_result(result, label):
 # @list_options: list of strings - the options in the menu
 # @exit_message: string - the last option with (0) (example: "Back to main menu")
 def print_menu(title, list_options, exit_message):  # working
+    print()
     print(title)
     for i in range(len(list_options)):
         print("(%d) %s" % (((i+1) % 7), list_options[i]))
