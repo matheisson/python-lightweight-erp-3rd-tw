@@ -185,7 +185,6 @@ def avg_amount(table, year):
     for outcome in t_outcome:
         sum_t_outcome += outcome
     profit = sum_t_income - sum_t_outcome
-    # count_of_year = sum(map(lambda x: 1, (t_income + t_outcome)))  # gives length of the income and outcome lists
     count_of = map(lambda x: 1, (t_income + t_outcome))
     count_of_year = len(list(count_of))
     # for y in count_of:
