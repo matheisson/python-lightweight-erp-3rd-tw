@@ -191,5 +191,4 @@ def avg_amount(table, year):
         label = ""
         result = "Year not found."
         ui.print_result(result, label)
-
-# start_module()
+        
