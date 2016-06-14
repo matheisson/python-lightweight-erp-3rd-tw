@@ -21,7 +21,7 @@ common = SourceFileLoader("common", current_file_path + "/../common.py").load_mo
 
 
 def get_table():
-    return data_manager.get_table_from_file("items.csv")
+    return data_manager.get_table_from_file(current_file_path + "/items.csv")
 
 
 def choose_function():
