@@ -77,7 +77,7 @@ def start_module():
 #
 # @table: list of lists
 def show_table(table):
-    title_list = ["ID", "Month", "Day", "Year", "Type (in/out)", "Amount ($)"]
+    title_list = ["ID", "Title", "Price", "Month", "Day", "Year"]
     show_tbl = ui.print_table(table, title_list)
     return table
 
@@ -86,9 +86,8 @@ def show_table(table):
 #
 # @table: list of lists
 def add(table):
-
-    # your code
-
+    title_list = ["Title", "Price", "Month", "Day", "Year"]
+    common.add_to_table(table, title_list)
     return table
 
 
@@ -97,9 +96,8 @@ def add(table):
 # @table: list of lists
 # @id_: string
 def remove(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    common.remove_table(table, id_)
     return table
 
 
@@ -109,9 +107,11 @@ def remove(table, id_):
 # @table: list of lists
 # @id_: string
 def update(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    list_labels = ["Title", "Price", "Month", "Day", "Year"]
+    title = "Update record"
+    rec_upd = ui.get_inputs(list_labels, title)
+    common.update_table(table, id_, rec_upd)
     return table
 
 
