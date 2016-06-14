@@ -89,12 +89,12 @@ def add(table):
     common.add_to_table(table, title_list)
     return table
 
-
+'''
 def get_id():
     list_labels = ["ID"]
     title = "Update record with the following ID"
     id_ = ui.get_inputs(list_labels, title)
-    return id_  # it is a list with 1 element
+    return id_  # it is a list with 1 element'''
 
 
 # Remove the record having the id @id_ from the @list, than return @table
@@ -102,10 +102,8 @@ def get_id():
 # @table: list of lists
 # @id_: string
 def remove(table, id_):
-    id_ = get_id()
-    for t in table:
-        if t[0] == id_[0]:
-            table.remove(t)
+    id_ = common.get_id()
+    common.remove_table(table, id_)
     return table
 
 
@@ -115,14 +113,11 @@ def remove(table, id_):
 # @table: list of lists
 # @id_: string
 def update(table, id_):
-    id_ = get_id()
+    id_ = common.get_id()
     list_labels = ["Month", "Day", "Year", "Type (in/out)", "Amount ($)"]
     title = "Update record"
     rec_upd = ui.get_inputs(list_labels, title)
-    for t in table:
-        if t[0] == id_[0]:
-            for x in range(len(rec_upd)):
-                t[x+1] = rec_upd[x]
+    common.update_table(table, id_, rec_upd)
     return table
 
 
