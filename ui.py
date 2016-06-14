@@ -70,7 +70,7 @@ def get_inputs(list_labels, title):  # working
 def print_error_message(message):  # working
     print("Error: %s" % message)
     pass
-'''
+
 menu_title = "hello"
 list_options = ["elso", "masodik", "harmadik", "negyedik", "otodik", "hatodik"]
 exit_message = "bye"
@@ -87,4 +87,4 @@ error = "hulye vagy"
 print_error_message(error)
 titles = ["id", "nev", "cim", "negy"]
 table_list = [[1, 2, 3, 4], [5, 6, 7, 8]]
-print_table(table_list, titles)'''
+print_table(table_list, titles)
