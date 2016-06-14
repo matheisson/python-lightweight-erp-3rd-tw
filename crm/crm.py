@@ -99,25 +99,27 @@ def update(table, id_):
 # the question: What is the id of the customer with the longest name ?
 # return type: string (id) - if there are more than one longest name, return the first of descending alphabetical order
 def get_longest_name_id(table):
-    data = data_manager.get_table_from_file('customers.csv')
+    table = data_manager.get_table_from_file(current_file_path + '/customers.csv')
+    title_list = "IDs"
     names = [str(i[1]) for i in table]
-    ids = [str(i[0]) for i in table]
-    top_names = max(names, key=len)  # the longest name
-    for names in table:
-        if top_names in names:
-            top_ids = table[0][0]  # id of the longest name
-        else:
-            continue
-    ui.print_table(top_ids)  # Most csak egyet ír ki, de több van! Mi a frászt csináljak???
-
-    return(top_ids)
-
+    max_names = max(len(i) for i in names)  # how long is the longest name
+    longest_names = [i for i in names if len(i) == max_names]  # customers with the longest names
+    max_ids = []
+    for row in table:
+        for i in longest_names:
+            if i in longest_names and i in row:
+                max_ids.append(row[0])
+    label = "ID of customers with longest names"
+    ui.print_result(max_ids, label)
+    return max_ids
+#get_longest_name_id('customers.csv')
 # the question: Which customers have subscribed to the newsletter?
 # return type: list of string (where string is like email+separator+name, separator=";")
 
 
 def get_subscribed_emails(table):
-    # data = table
+    table = data_manager.get_table_from_file(current_file_path + '/customers.csv')
+    title_list = "Subscribers"
     with open('customers.csv', "r") as file:
         lines = file.readlines()
     table = [element.replace("\n", "").split(";") for element in lines]
@@ -125,7 +127,7 @@ def get_subscribed_emails(table):
     for i in table:
         if int(i[3]) == 1:
             subscribed.append("{0};{1}".format(i[2], i[1]))
-
-    ui.print_table(subscribed)
-
+    label = "Subscribed Customers"
+    ui.print_result(subscribed, label)
     return subscribed
+#get_subscribed_emails('customers.csv')
