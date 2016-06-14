@@ -8,6 +8,7 @@
 
 # importing everything you need
 import os
+import csv
 from importlib.machinery import SourceFileLoader
 current_file_path = os.path.dirname(os.path.abspath(__file__))
 # User interface module
@@ -22,9 +23,10 @@ common = SourceFileLoader("common", current_file_path + "/../common.py").load_mo
 # user need to go back to the main menu from here
 # we need to reach the default and the special functions of this module from the module menu
 #
+
 def start_module():
     list_options = ["Show table", "Add new item", "Remove item", "Update item",
-                "ID with the longest name", "Subscribers", "Exit"]
+                    "ID with the longest name", "Subscribers", "Exit"]
     while True:
         ui.print_menu("CRM Menu", list_options, "Back to Main")
         inputs = ui.get_inputs(["Please enter a number: "], "")
@@ -47,16 +49,19 @@ def start_module():
         else:
             raise KeyError("There is no such option.")
 # print the default table of records from the file
-#
+
 # @table: list of lists
+#
+
+
 def show_table(table):
-
     ui.print_table(table, ["ID", "NAME", "EMAIL", "SUBSCRIBED"])
-
 
 # Ask a new record as an input from the user than add it to @table, than return @table
 #
 # @table: list of lists
+
+
 def add(table):
 
     # your code
@@ -97,24 +102,22 @@ def get_longest_name_id(table):
     data = data_manager.get_table_from_file('customers.csv')
     names = [str(i[1]) for i in table]
     ids = [str(i[0]) for i in table]
-    top_names = max(names, key=len) # the longest name
+    top_names = max(names, key=len)  # the longest name
     for names in table:
         if top_names in names:
-            top_ids = table[0][0] # id of the longest name
+            top_ids = table[0][0]  # id of the longest name
         else:
             continue
-    ui.print_table(top_ids) # Most csak egyet ír ki, de több van! Mi a frászt csináljak???
+    ui.print_table(top_ids)  # Most csak egyet ír ki, de több van! Mi a frászt csináljak???
 
     return(top_ids)
 
-    pass
-
-
-# the question: Which customers has subscribed to the newsletter?
+# the question: Which customers have subscribed to the newsletter?
 # return type: list of string (where string is like email+separator+name, separator=";")
 
+
 def get_subscribed_emails(table):
-    #data = table
+    # data = table
     with open('customers.csv', "r") as file:
         lines = file.readlines()
     table = [element.replace("\n", "").split(";") for element in lines]
