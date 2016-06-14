@@ -154,4 +154,4 @@ def avg_amount(table, year):
     pass
 
 
-start_module()
+#start_module()
