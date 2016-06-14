@@ -60,7 +60,7 @@ def get_inputs(list_labels, title):  # working
     inputs = []
     print(title)
     for i in range(len(list_labels)):
-        user_input = input(list_labels[i] + ": ")
+        user_input = input(list_labels[i] + "\t")
         inputs.append(user_input)
     return inputs
 
