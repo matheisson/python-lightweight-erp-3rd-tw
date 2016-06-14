@@ -25,7 +25,7 @@ def get_table():
 
 
 def choose_function(table):
-    inputs = ui.get_inputs(["Choose menu"], "")
+    inputs = ui.get_inputs(["Choose menu: "], "")
     option = inputs[0]
     id_ = 0
     year = 0
@@ -86,13 +86,23 @@ def add(table):
     return table
 
 
+def get_id():
+    list_labels = ["ID"]
+    title = "Remove record with the following ID"
+    id_ = ui.get_inputs(list_labels, title)
+    id_ = id_[0]
+    return id_
+
+
 # Remove the record having the id @id_ from the @list, than return @table
 #
 # @table: list of lists
 # @id_: string
 def remove(table, id_):
-
-    # your code
+    id_ = get_id()
+    for t in table:
+        if t[0] == id_:
+            print("test")
 
     return table
 
@@ -136,15 +146,51 @@ def which_year_max(table):
         result = 2015
     elif max_profit == profit[1]:
         result = 2016
-    label = "Year of highest profit is"
-    result = ui.print_result(result, label)
+    label = "Highest profit in"
+    ui.print_result(result, label)
     return result
+
+
+def get_year():
+    list_labels = ["Year"]
+    title = "What is the average (per item) profit in a given year?"
+    year = ui.get_inputs(list_labels, title)
+    year = int(year[0])
+    return year
 
 
 # the question: What is the average (per item) profit in a given year? [(profit)/(items count) ]
 # return the answer (number)
 def avg_amount(table, year):
+    t_income = []
+    t_outcome = []
+    year = get_year()
+    for t in table:
+        if year == int(t[3]):
+            if t[4] == "in":
+                t_income.append(int(t[5]))
+            elif t[4] == "out":
+                t_outcome.append(int(t[5]))
+    sum_t_income = 0
+    for income in t_income:
+        sum_t_income += income
+    sum_t_outcome = 0
+    for outcome in t_outcome:
+        sum_t_outcome += outcome
+    profit = sum_t_income - sum_t_outcome
+    # count_of_year = sum(map(lambda x: 1, (t_income + t_outcome)))  # gives length of the income and outcome lists
+    count_of = map(lambda x: 1, (t_income + t_outcome))
+    count_of_year = 0
+    for y in count_of:
+        count_of_year += y
+    try:
+        result = profit / count_of_year
+        label = ""
+        ui.print_result(result, label)
+        return result
+    except ZeroDivisionError:
+        label = ""
+        result = "Year not found."
+        ui.print_result(result, label)
 
-    # your code
-
-    pass
+# start_module()
