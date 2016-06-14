@@ -53,7 +53,7 @@ def choose_function(table):
 
 def start_module():
     title = "Customer Relations Manager"
-    list_options = ["Show Table", "Add to Table", "Remove from Table", "Update Element", "IDs of the longest names",
+    list_options = ["Show Table", "Add to Table", "Remove from Table", "Update Element", "ID of the longest name",
                     "Subscribers"]
     exit_message = "Back to Main Menu"
     table = get_table()
@@ -82,7 +82,7 @@ def show_table(table):
 
 
 def add(table):
-    title_list = ["Name", "E-mail", "Subscribed (1/0)"]
+    title_list = ["Name", "E-mail", "Subscribed(yes=1/no=0)"]
     common.add_to_table(table, title_list)
     return table
 
@@ -118,7 +118,7 @@ def update(table, id_):
 # return type: string (id) - if there are more than one longest name, return the first of descending alphabetical order
 def get_longest_name_id(table):
     table = data_manager.get_table_from_file(current_file_path + '/customers.csv')
-    title_list = "IDs"
+    title_list = "ID"
     names = [str(i[1]) for i in table]
     max_names = max(len(i) for i in names)  # how long is the longest name
     longest_names = [i for i in names if len(i) == max_names]  # customers with the longest names
@@ -127,9 +127,8 @@ def get_longest_name_id(table):
     for row in table:
         if top_name in row:
             max_id.append(row[0])
-    label = "ID of customers with longest names"
+    label = "ID of customer with longest name: "
     ui.print_result(max_id, label)
-
     return max_id
 
 # the question: Which customers have subscribed to the newsletter?
@@ -143,6 +142,6 @@ def get_subscribed_emails(table):
     for i in table:
         if int(i[3]) == 1:
             subscribed.append("{0};{1}".format(i[2], i[1]))
-    label = "Subscribed Customers"
+    label = "Subscribed Customers: "
     ui.print_result(subscribed, label)
     return subscribed
