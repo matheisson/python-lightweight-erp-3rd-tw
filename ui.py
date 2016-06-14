@@ -26,8 +26,7 @@ def print_table(table, title_list):
 # @result: string or list or dictionary - result of the special function
 # @label: string - label of the result
 def print_result(result, label):
-    print(label)
-    print(result)
+    print(label, result)
 
 
 # This function needs to generate outputs like this:
