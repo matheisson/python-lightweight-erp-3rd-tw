@@ -113,20 +113,47 @@ def update(table, id_):
 # return type: list of strings (name or names if there are two more with the same value)
 def get_oldest_person(table):
     sol = []
+    names = []
+    result = []
     for line in table:
         years = line[2]
+        name = line[1]
+        names.append(name)
         sol.append(int(years))
     min_ = sol[0]
     for i in range(len(sol)):
         if sol[i] < min_:
             min_ = sol[i]
-    print(min_)
+            result = []
+            result.append(names[i])
+        elif sol[i] == min_:
+            result.append(names[i])
+    return result
+
 
 
 # the question: Who is the closest to the average age ?
 # return type: list of strings (name or names if there are two more with the same value)
 def get_persons_closest_to_average(table):
-
-    # your code
-
-    pass
+    years = []
+    names = []
+    avg = 0
+    #calc average
+    for line in table:
+        name = line[1]
+        names.append(name)
+        year = line[2]
+        years.append(int(year))
+    for i in years:
+        avg += i
+    avg = int(avg / len(table))
+    #calc closest
+    closest = years[0]
+    for i in range(len(years)):
+        if abs(years[i] - avg) < closest:
+            closest = abs(years[i] - avg)
+            result = []
+            result.append(names[i])
+        elif abs(years[i] - avg) == closest:
+            result.append(names[i])
+    return result
