@@ -20,13 +20,12 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 
-
 def get_table():
     return data_manager.get_table_from_file(current_file_path + "/items.csv")
 
 
 def choose_function(table):
-    inputs = ui.get_inputs(["Please enter a number: "], "")
+    inputs = ui.get_inputs(["Choose menu"], "")
     option = inputs[0]
     id_ = 0
     year = 0
@@ -54,12 +53,12 @@ def choose_function(table):
 
 def start_module():
     title = "Accounting Manager"
-    functions = ["Show Table", "Add to Table", "Remove from Table", "Update Element", "Highest Profit",
-                 "Average profit it given year"]
-    back = "Back to Main Menu"
+    list_options = ["Show Table", "Add to Table", "Remove from Table", "Update Element", "Highest Profit",
+                    "Average profit in given year"]
+    exit_message = "Back to Main Menu"
     table = get_table()
     while True:
-        ui.print_menu(title, functions, back)
+        ui.print_menu(title, list_options, exit_message)
         try:
             valid = choose_function(table)
             if valid == "break":
@@ -81,9 +80,13 @@ def show_table(table):
 #
 # @table: list of lists
 def add(table):
-
-    # your code
-
+    list_labels = ["ID", "Month", "Day", "Year", "Type (in/out)", "Amount ($)"]
+    title = "Add new item:"
+    new_record = (ui.get_inputs(list_labels, title))
+    row = ';'.join(new_record)
+    print("test", row)
+    refreshed_table = table + new_record
+    table = data_manager.write_table_to_file(file_name, refreshed_table)
     return table
 
 
@@ -134,11 +137,12 @@ def which_year_max(table):
     profit = [(t_income["2015"] - t_outcome["2015"]), (t_income["2016"] - t_outcome["2016"])]
     max_profit = max(profit)
     if max_profit == profit[0]:
-        year_max = 2015
+        result = 2015
     elif max_profit == profit[1]:
-        year_max = 2016
-    print(year_max)
-    return year_max
+        result = 2016
+    label = "Year of highest profit is"
+    result = ui.print_result(result, label)
+    return result
 
 
 # the question: What is the average (per item) profit in a given year? [(profit)/(items count) ]
