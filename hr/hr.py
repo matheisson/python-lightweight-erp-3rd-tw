@@ -42,9 +42,8 @@ def show_table(table):
 #
 # @table: list of lists
 def add(table):
-
-    # your code
-
+    title_list = ["Name", "Birth_Year"]
+    common.add_to_table(table, title_list)
     return table
 
 

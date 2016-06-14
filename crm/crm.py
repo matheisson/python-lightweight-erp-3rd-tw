@@ -29,7 +29,7 @@ def start_module():
                     "ID with the longest name", "Subscribers", "Exit"]
     while True:
         ui.print_menu("CRM Menu", list_options, "Back to Main")
-        inputs = ui.get_inputs(["Please enter a number: "], "")
+        inputs = ui.get_inputs(["Please enter a number"], "")
         option = inputs[0]
         table = table.get_table_from_file('customers.csv')
         if option == "1":
@@ -63,9 +63,8 @@ def show_table(table):
 
 
 def add(table):
-
-    # your code
-
+    title_list = ["Name", "E-mail", "Subscribed (1/0)"]
+    common.add_to_table(table, title_list)
     return table
 
 

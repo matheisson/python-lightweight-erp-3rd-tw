@@ -39,24 +39,9 @@ def generate_random(table):  # working
     else:
         return generate_random(table)
 
-'''
-def generate_start(title, function_list, go_back):
-    print(title)
-    for i in range(len(function_list)):
-        print("(%d) %s" % (((i+1) % 7), function_list[i]))
-    print("(0) %s" % go_back)'''
 
-
-def forward_table(title):
-    if title == "Accounting Manager":
-        return data_manager.get_table_from_file("items.csv")
-    elif title == "crm":
-        return data_manager.get_table_from_file("costumers.csv")
-    elif title == "hr":
-        return data_manager.get_table_from_file("persons.csv")
-    elif title == "selling":
-        return data_manager.get_table_from_file("sellings.csv")
-    elif title == "store":
-        return data_manager.get_table_from_file("games.csv")
-    elif title == "tool man":
-        return data_manager.get_table_from_file("tools.csv")
+def add_to_table(table, title_list):
+    inputs = ui.get_inputs(title_list, "Please enter:")
+    inputs.insert(0, generate_random(table))
+    table.append(inputs)
+    return table

@@ -26,8 +26,7 @@ def print_table(table, title_list):
 # @result: string or list or dictionary - result of the special function
 # @label: string - label of the result
 def print_result(result, label):
-    print(label)
-    print(result)
+    print(label, result)
 
 
 # This function needs to generate outputs like this:
@@ -61,7 +60,7 @@ def get_inputs(list_labels, title):  # working
     inputs = []
     print(title)
     for i in range(len(list_labels)):
-        user_input = input(list_labels[i] + ": ")
+        user_input = input(list_labels[i] + "\t")
         inputs.append(user_input)
     return inputs
 
