@@ -19,13 +19,12 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 
-# start this module by a module menu like the main menu
-# user need to go back to the main menu from here
-# we need to reach the default and the special functions of this module from the module menu
-#
-
 def get_table():
     return data_manager.get_table_from_file(current_file_path + "/customers.csv")
+
+
+def send_table(table):
+    data_manager.write_table_to_file(current_file_path + "/items.csv", table)
 
 
 def choose_function(table):
@@ -50,6 +49,10 @@ def choose_function(table):
     else:
         raise KeyError("There is no such option.")
 
+# start this module by a module menu like the main menu
+# user need to go back to the main menu from here
+# we need to reach the default and the special functions of this module from the module menu
+
 
 def start_module():
     title = "Customer Relations Manager"
@@ -58,6 +61,7 @@ def start_module():
     exit_message = "Back to Main Menu"
     table = get_table()
     while True:
+        send_table(table)
         ui.print_menu(title, list_options, exit_message)
         try:
             valid = choose_function(table)
@@ -91,22 +95,26 @@ def add(table):
 #
 # @table: list of lists
 # @id_: string
+
+
 def remove(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    common.remove_table(table, id_)
     return table
-
 
 # Update the record in @table having the id @id_ by asking the new data from the user,
 # than return @table
 #
 # @table: list of lists
 # @id_: string
+
+
 def update(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    list_labels = ["ID", "Name", "Email", "Subscribed(yes=1/no=0)"]
+    title = "Update record"
+    rec_upd = ui.get_inputs(list_labels, title)
+    common.update_table(table, id_, rec_upd)
     return table
 
 
