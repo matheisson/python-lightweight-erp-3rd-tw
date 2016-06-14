@@ -12,6 +12,7 @@
 # @table: list of lists - the table to print out
 # @title_list: list of strings - the head of the table
 def print_table(table, title_list):
+    print()
     for i in range(len(title_list)):
         print(title_list[i], end="\t")
     for i in range(len(table)):
@@ -43,10 +44,11 @@ def print_result(result, label):
 # @list_options: list of strings - the options in the menu
 # @exit_message: string - the last option with (0) (example: "Back to main menu")
 def print_menu(title, list_options, exit_message):  # working
+    print()
     print(title)
     for i in range(len(list_options)):
         print("(%d) %s" % (((i+1) % 7), list_options[i]))
-    print(exit_message)
+    print("(0) %s" % exit_message)
 
 # This function gets a list of inputs from the user by the terminal
 #
@@ -69,22 +71,3 @@ def get_inputs(list_labels, title):  # working
 # @message: string - the error message
 def print_error_message(message):  # working
     print("Error: %s" % message)
-    pass
-
-menu_title = "hello"
-list_options = ["elso", "masodik", "harmadik", "negyedik", "otodik", "hatodik"]
-exit_message = "bye"
-
-print_menu(menu_title, list_options, exit_message)
-
-label = "csao"
-result = ["hali", 3, "csecs", ["alma", 2]]
-print_result(result, label)
-list_labels = ["1", "masodik"]
-title = "Input section"
-get_inputs(list_labels, title)
-error = "hulye vagy"
-print_error_message(error)
-titles = ["id", "nev", "cim", "negy"]
-table_list = [[1, 2, 3, 4], [5, 6, 7, 8]]
-print_table(table_list, titles)
