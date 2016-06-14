@@ -80,7 +80,6 @@ def show_table(table):
 #
 # @table: list of lists
 def add(table):
-
     title_list = ["Month", "Day", "Year", "Type (in/out)", "Amount ($)"]
     common.add_to_table(table, title_list)
     return table
