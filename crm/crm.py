@@ -24,30 +24,48 @@ common = SourceFileLoader("common", current_file_path + "/../common.py").load_mo
 # we need to reach the default and the special functions of this module from the module menu
 #
 
+def get_table():
+    return data_manager.get_table_from_file(current_file_path + "/customers.csv")
+
+
+def choose_function(table):
+    inputs = ui.get_inputs(["Choose menu: "], "")
+    option = inputs[0]
+    id_ = 0
+    year = 0
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        remove(table, id_)
+    elif option == "4":
+        update(table, id_)
+    elif option == "5":
+        get_longest_name_id(table)
+    elif option == "6":
+        get_subscribed_emails(table)
+    elif option == "0":
+        return "break"
+    else:
+        raise KeyError("There is no such option.")
+
+
 def start_module():
-    list_options = ["Show table", "Add new item", "Remove item", "Update item",
-                    "ID with the longest name", "Subscribers", "Exit"]
+    title = "Customer Relations Manager"
+    list_options = ["Show Table", "Add to Table", "Remove from Table", "Update Element", "ID of the longest name",
+                    "Subscribers"]
+    exit_message = "Back to Main Menu"
+    table = get_table()
     while True:
-        ui.print_menu("CRM Menu", list_options, "Back to Main")
-        inputs = ui.get_inputs(["Please enter a number"], "")
-        option = inputs[0]
-        table = table.get_table_from_file('customers.csv')
-        if option == "1":
-            show_table()
-        elif option == "2":
-            add()
-        elif option == "3":
-            remove()
-        elif option == "4":
-            update()
-        elif option == "5":
-            get_longest_name_id()
-        elif option == "6":
-            get_subscribed_emails()
-        elif option == "0":
-            sys.exit(0)
-        else:
-            raise KeyError("There is no such option.")
+        ui.print_menu(title, list_options, exit_message)
+        try:
+            valid = choose_function(table)
+            if valid == "break":
+                break
+        except KeyError as err:
+            ui.print_error_message(err)
+
 # print the default table of records from the file
 
 # @table: list of lists
@@ -55,15 +73,16 @@ def start_module():
 
 
 def show_table(table):
-    ui.print_table(table, ["ID", "NAME", "EMAIL", "SUBSCRIBED"])
-
+    title_list = ["ID", "Name", "Email", "Subscribed(yes=1/no=0)"]
+    show_tbl = ui.print_table(table, title_list)
+    return table
 # Ask a new record as an input from the user than add it to @table, than return @table
 #
 # @table: list of lists
 
 
 def add(table):
-    title_list = ["Name", "E-mail", "Subscribed (1/0)"]
+    title_list = ["Name", "E-mail", "Subscribed(yes=1/no=0)"]
     common.add_to_table(table, title_list)
     return table
 
@@ -98,33 +117,31 @@ def update(table, id_):
 # the question: What is the id of the customer with the longest name ?
 # return type: string (id) - if there are more than one longest name, return the first of descending alphabetical order
 def get_longest_name_id(table):
-    data = data_manager.get_table_from_file('customers.csv')
+    table = data_manager.get_table_from_file(current_file_path + '/customers.csv')
+    title_list = "ID"
     names = [str(i[1]) for i in table]
-    ids = [str(i[0]) for i in table]
-    top_names = max(names, key=len)  # the longest name
-    for names in table:
-        if top_names in names:
-            top_ids = table[0][0]  # id of the longest name
-        else:
-            continue
-    ui.print_table(top_ids)  # Most csak egyet ír ki, de több van! Mi a frászt csináljak???
-
-    return(top_ids)
+    max_names = max(len(i) for i in names)  # how long is the longest name
+    longest_names = [i for i in names if len(i) == max_names]  # customers with the longest names
+    top_name = min(longest_names)
+    max_id = []
+    for row in table:
+        if top_name in row:
+            max_id.append(row[0])
+    label = "ID of customer with longest name: "
+    ui.print_result(max_id, label)
+    return max_id
 
 # the question: Which customers have subscribed to the newsletter?
 # return type: list of string (where string is like email+separator+name, separator=";")
 
 
 def get_subscribed_emails(table):
-    # data = table
-    with open('customers.csv', "r") as file:
-        lines = file.readlines()
-    table = [element.replace("\n", "").split(";") for element in lines]
+    table = data_manager.get_table_from_file(current_file_path + '/customers.csv')
+    title_list = "Subscribers"
     subscribed = []
     for i in table:
         if int(i[3]) == 1:
             subscribed.append("{0};{1}".format(i[2], i[1]))
-
-    ui.print_table(subscribed)
-
+    label = "Subscribed Customers: "
+    ui.print_result(subscribed, label)
     return subscribed

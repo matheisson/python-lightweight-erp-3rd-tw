@@ -21,34 +21,73 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 
+def get_table():
+    return data_manager.get_table_from_file(current_file_path + "/sellings.csv")
+
+
+def send_table(table):
+    data_manager.write_table_to_file(current_file_path + "/sellings.csv", table)
+
+
+def choose_function(table):
+    inputs = ui.get_inputs(["Choose menu: "], "")
+    option = inputs[0]
+    id_ = 0
+    year = 0
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        remove(table, id_)
+    elif option == "4":
+        update(table, id_)
+    elif option == "5":
+        get_lowest_price_item_id(table)
+    elif option == "6":
+        get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
+    elif option == "0":
+        return "break"
+    else:
+        raise KeyError("There is no such option.")
+
+
 # start this module by a module menu like the main menu
 # user need to go back to the main menu from here
 # we need to reach the default and the special functions of this module from the module menu
 #
 def start_module():
-
-    # you code
-
-    pass
+    title = "Selling Manager"
+    list_options = ["Show Table", "Add to Table", "Remove from Table", "Update Element", "Lowest Price",
+                    "Items sold between"]
+    exit_message = "Back to Main Menu"
+    table = get_table()
+    while True:
+        send_table(table)
+        ui.print_menu(title, list_options, exit_message)
+        try:
+            valid = choose_function(table)
+            if valid == "break":
+                break
+        except KeyError as err:
+            ui.print_error_message(err)
 
 
 # print the default table of records from the file
 #
 # @table: list of lists
 def show_table(table):
-
-    # your code
-
-    pass
+    title_list = ["ID", "Title", "Price", "Month", "Day", "Year"]
+    show_tbl = ui.print_table(table, title_list)
+    return table
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table
 #
 # @table: list of lists
 def add(table):
-
-    # your code
-
+    title_list = ["Title", "Price", "Month", "Day", "Year"]
+    common.add_to_table(table, title_list)
     return table
 
 
@@ -57,9 +96,8 @@ def add(table):
 # @table: list of lists
 # @id_: string
 def remove(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    common.remove_table(table, id_)
     return table
 
 
@@ -69,9 +107,11 @@ def remove(table, id_):
 # @table: list of lists
 # @id_: string
 def update(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    list_labels = ["Title", "Price", "Month", "Day", "Year"]
+    title = "Update record"
+    rec_upd = ui.get_inputs(list_labels, title)
+    common.update_table(table, id_, rec_upd)
     return table
 
 
@@ -82,10 +122,25 @@ def update(table, id_):
 # return type: string (id)
 # if there are more than one with the lowest price, return the first of descending alphabetical order
 def get_lowest_price_item_id(table):
+    prices = []
+    for t in table:
+        prices.append(t[2])
+    new_list = []
 
-    # your code
-
-    pass
+    while prices:
+        minimum = prices[0]  # arbitrary number in list
+        for x in prices:
+            if x < minimum:
+                minimum = x
+        new_list.append(minimum)
+        prices.remove(minimum)
+    lowest = min(new_list)
+    for t in table:
+        if t[2] == lowest:
+            result = t[0]
+    label = "ID of lowest priced item:"  # just one, not the first - alphabetical order needed
+    ui.print_result(result, label)
+    return result
 
 
 # the question: Which items are sold between two given dates ? (from_date < birth_date < to_date)

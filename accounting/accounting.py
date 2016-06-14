@@ -24,6 +24,10 @@ def get_table():
     return data_manager.get_table_from_file(current_file_path + "/items.csv")
 
 
+def send_table(table):
+    data_manager.write_table_to_file(current_file_path + "/items.csv", table)
+
+
 def choose_function(table):
     inputs = ui.get_inputs(["Choose menu: "], "")
     option = inputs[0]
@@ -40,6 +44,7 @@ def choose_function(table):
     elif option == "5":
         which_year_max(table)
     elif option == "6":
+        year = get_year()
         avg_amount(table, year)
     elif option == "0":
         return "break"
@@ -58,6 +63,7 @@ def start_module():
     exit_message = "Back to Main Menu"
     table = get_table()
     while True:
+        send_table(table)
         ui.print_menu(title, list_options, exit_message)
         try:
             valid = choose_function(table)
@@ -85,24 +91,13 @@ def add(table):
     return table
 
 
-def get_id():
-    list_labels = ["ID"]
-    title = "Remove record with the following ID"
-    id_ = ui.get_inputs(list_labels, title)
-    id_ = id_[0]
-    return id_
-
-
 # Remove the record having the id @id_ from the @list, than return @table
 #
 # @table: list of lists
 # @id_: string
 def remove(table, id_):
-    id_ = get_id()
-    for t in table:
-        if t[0] == id_:
-            print("test")
-
+    id_ = common.get_id()
+    common.remove_table(table, id_)
     return table
 
 
@@ -112,9 +107,11 @@ def remove(table, id_):
 # @table: list of lists
 # @id_: string
 def update(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    list_labels = ["Month", "Day", "Year", "Type (in/out)", "Amount ($)"]
+    title = "Update record"
+    rec_upd = ui.get_inputs(list_labels, title)
+    common.update_table(table, id_, rec_upd)
     return table
 
 
@@ -139,19 +136,28 @@ def which_year_max(table):
                 t_outcome[year] += int(t[5])
             else:
                 t_outcome.update({year: int(t[5])})
-    profit = [(t_income["2015"] - t_outcome["2015"]), (t_income["2016"] - t_outcome["2016"])]
+    keys = list(t_income.keys())
+    sortkeys = []
+    while keys:
+        minimum = keys[0]
+        for x in keys:
+            if x < minimum:
+                minimum = x
+        sortkeys.append(minimum)
+        keys.remove(minimum)
+    profit = [(t_income.get(sortkeys[0]) - t_outcome.get(sortkeys[0])), (t_income.get(sortkeys[1]) - t_outcome.get(sortkeys[1]))]
     max_profit = max(profit)
     if max_profit == profit[0]:
-        result = 2015
+        result = int(sortkeys[0])
     elif max_profit == profit[1]:
-        result = 2016
-    label = "Highest profit in"
+        result = int(sortkeys[0])
+    label = "Highest profit in:"
     ui.print_result(result, label)
     return result
 
 
 def get_year():
-    list_labels = ["Year"]
+    list_labels = ["Year:"]
     title = "What is the average (per item) profit in a given year?"
     year = ui.get_inputs(list_labels, title)
     year = int(year[0])
@@ -163,7 +169,6 @@ def get_year():
 def avg_amount(table, year):
     t_income = []
     t_outcome = []
-    year = get_year()
     for t in table:
         if year == int(t[3]):
             if t[4] == "in":
@@ -177,11 +182,10 @@ def avg_amount(table, year):
     for outcome in t_outcome:
         sum_t_outcome += outcome
     profit = sum_t_income - sum_t_outcome
-    # count_of_year = sum(map(lambda x: 1, (t_income + t_outcome)))  # gives length of the income and outcome lists
     count_of = map(lambda x: 1, (t_income + t_outcome))
-    count_of_year = 0
-    for y in count_of:
-        count_of_year += y
+    count_of_year = len(list(count_of))
+    # for y in count_of:
+    #     count_of_year += y
     try:
         result = profit / count_of_year
         label = ""
@@ -191,4 +195,3 @@ def avg_amount(table, year):
         label = ""
         result = "Year not found."
         ui.print_result(result, label)
-        

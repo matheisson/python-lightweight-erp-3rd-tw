@@ -45,3 +45,25 @@ def add_to_table(table, title_list):
     inputs.insert(0, generate_random(table))
     table.append(inputs)
     return table
+
+
+def get_id():
+    list_labels = ["ID"]
+    title = "Update/Remove record with the following ID"
+    id_ = ui.get_inputs(list_labels, title)
+    return id_
+
+
+def remove_table(table, id_):
+    for t in table:
+        if t[0] == id_[0]:
+            table.remove(t)
+    return table
+
+
+def update_table(table, id_, updated_data):
+    for t in table:
+        if t[0] == id_[0]:
+            for x in range(len(updated_data)):
+                t[x+1] = updated_data[x]
+    return table
