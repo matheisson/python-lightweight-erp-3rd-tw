@@ -100,10 +100,29 @@ def update(table, id_):
 # the question: Which year has the highest profit? (profit=in-out)
 # return the answer (number)
 def which_year_max(table):
-
-    # your code
-
-    pass
+    t_income = {}
+    t_outcome = {}
+    for t in table:
+        if t[4] == "in":
+            year = t[3]
+            if year in t_income:
+                t_income[year] += int(t[5])
+            else:
+                t_income.update({year: int(t[5])})
+        elif t[4] == "out":
+            year = t[3]
+            if year in t_outcome:
+                t_outcome[year] += int(t[5])
+            else:
+                t_outcome.update({year: int(t[5])})
+    profit = [(t_income["2015"] - t_outcome["2015"]), (t_income["2016"] - t_outcome["2016"])]
+    max_profit = max(profit)
+    if max_profit == profit[0]:
+        year_max = 2015
+    elif max_profit == profit[1]:
+        year_max = 2016
+    print(year_max)
+    return year_max
 
 
 # the question: What is the average (per item) profit in a given year? [(profit)/(items count) ]
