@@ -131,10 +131,11 @@ def get_longest_name_id(table):
     max_names = max(len(i) for i in names)  # how long is the longest name
     longest_names = [i for i in names if len(i) == max_names]  # customers with the longest names
     top_name = min(longest_names)
-    max_id = []
+    max_id_lst = []
     for row in table:
         if top_name in row:
-            max_id.append(row[0])
+            max_id_lst.append(row[0])
+    max_id = max_id_lst[0]  # get a string instead of a list to match with test.py result
     label = "ID of customer with longest name: "
     ui.print_result(max_id, label)
     return max_id
