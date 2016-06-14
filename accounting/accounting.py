@@ -80,13 +80,9 @@ def show_table(table):
 #
 # @table: list of lists
 def add(table):
-    list_labels = ["ID", "Month", "Day", "Year", "Type (in/out)", "Amount ($)"]
-    title = "Add new item:"
-    new_record = (ui.get_inputs(list_labels, title))
-    row = ';'.join(new_record)
-    print("test", row)
-    refreshed_table = table + new_record
-    table = data_manager.write_table_to_file(file_name, refreshed_table)
+
+    title_list = ["Month", "Day", "Year", "Type (in/out)", "Amount ($)"]
+    common.add_to_table(table, title_list)
     return table
 
 
@@ -152,6 +148,3 @@ def avg_amount(table, year):
     # your code
 
     pass
-
-
-start_module()
