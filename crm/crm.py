@@ -25,29 +25,20 @@ common = SourceFileLoader("common", current_file_path + "/../common.py").load_mo
 #
 
 def start_module():
-    list_options = ["Show table", "Add new item", "Remove item", "Update item",
-                    "ID with the longest name", "Subscribers", "Exit"]
+    title = "Customer Relations Manager"
+    list_options = ["Show Table", "Add to Table", "Remove from Table", "Update Element", "IDs of the longest names",
+                    "Subscribers"]
+    exit_message = "Back to Main Menu"
+    table = get_table()
     while True:
-        ui.print_menu("CRM Menu", list_options, "Back to Main")
-        inputs = ui.get_inputs(["Please enter a number"], "")
-        option = inputs[0]
-        table = table.get_table_from_file('customers.csv')
-        if option == "1":
-            show_table()
-        elif option == "2":
-            add()
-        elif option == "3":
-            remove()
-        elif option == "4":
-            update()
-        elif option == "5":
-            get_longest_name_id()
-        elif option == "6":
-            get_subscribed_emails()
-        elif option == "0":
-            sys.exit(0)
-        else:
-            raise KeyError("There is no such option.")
+        ui.print_menu(title, list_options, exit_message)
+        try:
+            valid = choose_function(table)
+            if valid == "break":
+                break
+        except KeyError as err:
+            ui.print_error_message(err)
+
 # print the default table of records from the file
 
 # @table: list of lists
@@ -55,8 +46,9 @@ def start_module():
 
 
 def show_table(table):
-    ui.print_table(table, ["ID", "NAME", "EMAIL", "SUBSCRIBED"])
-
+    title_list = ["ID", "Name", "Email", "Subscribed(yes=1/no=0)"]
+    show_tbl = ui.print_table(table, title_list)
+    return table
 # Ask a new record as an input from the user than add it to @table, than return @table
 #
 # @table: list of lists
@@ -111,7 +103,7 @@ def get_longest_name_id(table):
     label = "ID of customers with longest names"
     ui.print_result(max_ids, label)
     return max_ids
-#get_longest_name_id('customers.csv')
+
 # the question: Which customers have subscribed to the newsletter?
 # return type: list of string (where string is like email+separator+name, separator=";")
 
@@ -129,4 +121,3 @@ def get_subscribed_emails(table):
     label = "Subscribed Customers"
     ui.print_result(subscribed, label)
     return subscribed
-#get_subscribed_emails('customers.csv')
