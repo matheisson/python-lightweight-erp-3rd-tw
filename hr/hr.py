@@ -28,9 +28,6 @@ def get_table():
     return data_manager.get_table_from_file(current_file_path + "/persons.csv")
 
 
-
-
-
 def choose_function(table):
     table = get_table()
     inputs = ui.get_inputs(["Please enter a number: "], "")
@@ -81,9 +78,8 @@ def show_table(table):
 #
 # @table: list of lists
 def add(table):
-
-
-
+    title_list = ["Name", "Birth_Year"]
+    common.add_to_table(table, title_list)
     return table
 
 
