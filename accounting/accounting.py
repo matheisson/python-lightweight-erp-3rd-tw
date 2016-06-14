@@ -56,10 +56,9 @@ def start_module():
 #
 # @table: list of lists
 def show_table(table):
-
-    # your code
-
-    pass
+    title_list = ["ID", "Month", "Day", "Year", "Type (in/out)", "Amount ($)"]
+    show_tbl = ui.print_table(table, title_list)
+    return table
 
 
 # Ask a new record as an input from the user than add it to @table, than return @table
