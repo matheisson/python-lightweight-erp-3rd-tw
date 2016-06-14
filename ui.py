@@ -11,14 +11,27 @@
 #
 # @table: list of lists - the table to print out
 # @title_list: list of strings - the head of the table
+def get_column_lenght(table, title_list):
+    column_lenght = []
+    column = 0
+    for i in range(len(title_list)):
+        column = len(title_list[i])
+        for j in range(len(table)):
+            if len(table[j][i]) > column:
+                column = len(table[j][i])
+        column_lenght.append(column)
+    return column_lenght
+
+
 def print_table(table, title_list):
+    lenght = get_column_lenght(table, title_list)
     print()
     for i in range(len(title_list)):
-        print(title_list[i], end="\t")
+        print(" " * (lenght[i] - len(title_list[i])) + title_list[i], end=" ")
     for i in range(len(table)):
         print()
         for j in range(len(title_list)):
-            print(table[i][j], end="\t")
+            print(" " * (lenght[j] - len(table[i][j])) + table[i][j], end=" ")
 
 
 # This function needs to print result of the special functions
