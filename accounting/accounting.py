@@ -44,6 +44,7 @@ def choose_function(table):
     elif option == "5":
         which_year_max(table)
     elif option == "6":
+        year = get_year()
         avg_amount(table, year)
     elif option == "0":
         return "break"
@@ -88,13 +89,6 @@ def add(table):
     title_list = ["Month", "Day", "Year", "Type (in/out)", "Amount ($)"]
     common.add_to_table(table, title_list)
     return table
-
-'''
-def get_id():
-    list_labels = ["ID"]
-    title = "Update record with the following ID"
-    id_ = ui.get_inputs(list_labels, title)
-    return id_  # it is a list with 1 element'''
 
 
 # Remove the record having the id @id_ from the @list, than return @table
@@ -142,12 +136,21 @@ def which_year_max(table):
                 t_outcome[year] += int(t[5])
             else:
                 t_outcome.update({year: int(t[5])})
-    profit = [(t_income["2015"] - t_outcome["2015"]), (t_income["2016"] - t_outcome["2016"])]
+    keys = list(t_income.keys())
+    sortkeys = []
+    while keys:
+        minimum = keys[0]
+        for x in keys:
+            if x < minimum:
+                minimum = x
+        sortkeys.append(minimum)
+        keys.remove(minimum)
+    profit = [(t_income.get(sortkeys[0]) - t_outcome.get(sortkeys[0])), (t_income.get(sortkeys[1]) - t_outcome.get(sortkeys[1]))]
     max_profit = max(profit)
     if max_profit == profit[0]:
-        result = 2015
+        result = int(sortkeys[0])
     elif max_profit == profit[1]:
-        result = 2016
+        result = int(sortkeys[0])
     label = "Highest profit in:"
     ui.print_result(result, label)
     return result
@@ -166,7 +169,6 @@ def get_year():
 def avg_amount(table, year):
     t_income = []
     t_outcome = []
-    year = get_year()
     for t in table:
         if year == int(t[3]):
             if t[4] == "in":
