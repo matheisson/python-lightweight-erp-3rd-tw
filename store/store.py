@@ -56,7 +56,7 @@ def choose_function(table):
 
 
 def get_manufaturer():
-    Label = ["Manufacturer"]
+    list_labels = ["Manufacturer"]
     title = "Enter the name of the Manufacturer: "
     manufacturer = ui.get_inputs(list_labels, title)
     return manufacturer
@@ -141,8 +141,17 @@ def get_counts_by_manufacturers(table):
 def get_average_by_manufacturer(table, manufacturer):
     number_of_games = 0
     total_games = 0
+    manufacturer = str(" ".join(manufacturer))
     for i in range(len(table)):
-        if table[i][2] == manufacturer:
+        if str(table[i][2]) == manufacturer:
             number_of_games += 1
             total_games += int(table[i][4])
-    return total_games / number_of_games
+    try:
+        label = ""
+        result = total_games / number_of_games
+        ui.print_result(result, label)
+        return result
+    except ZeroDivisionError:
+        label = ""
+        result = "Manufacturer not found."
+        ui.print_result(result, label)
