@@ -42,8 +42,10 @@ def choose_function(table):
         update(table, id_)
     elif option == "5":
         get_longest_name_id(table)
+        print_get_longest_name_id(table)
     elif option == "6":
         get_subscribed_emails(table)
+        print_get_subscribed_emails(table)
     elif option == "0":
         return "break"
     else:
@@ -137,8 +139,14 @@ def get_longest_name_id(table):
             max_id_lst.append(row[0])
     max_id = max_id_lst[0]  # get a string instead of a list to match with test.py result
     label = "ID of customer with longest name: "
-    ui.print_result(max_id, label)
+    result = max_id
     return max_id
+
+
+def print_get_longest_name_id(table):
+    result = get_longest_name_id(table)
+    label = ""
+    ui.print_result(result, label)
 
 # the question: Which customers have subscribed to the newsletter?
 # return type: list of string (where string is like email+separator+name, separator=";")
@@ -152,5 +160,11 @@ def get_subscribed_emails(table):
         if int(i[3]) == 1:
             subscribed.append("{0};{1}".format(i[2], i[1]))
     label = "Subscribed Customers: "
-    ui.print_result(subscribed, label)
-    return subscribed
+    result = subscribed
+    return result
+
+
+def print_get_subscribed_emails(table):
+    result = get_subscribed_emails(table)
+    label = ""
+    ui.print_result(result, label)
