@@ -47,19 +47,20 @@ def choose_function(table):
     elif option == "5":
         get_counts_by_manufacturers(table)
     elif option == "6":
-        manufacturer = get_manufaturer()
-        get_average_by_manufacturer(table, manufacturer)
+        manufacturer = get_manufacturer()
+        result = get_average_by_manufacturer(table, manufacturer)
+        ui.print_result(result, "")
     elif option == "0":
         return "break"
     else:
         raise KeyError("There is no such option.")
 
 
-def get_manufaturer():
+def get_manufacturer():
     Label = ["Manufacturer"]
     title = "Enter the name of the Manufacturer: "
-    manufacturer = ui.get_inputs(list_labels, title)
-    return manufacturer
+    manufacturer = ui.get_inputs(Label, title)
+    return str(manufacturer[0])
 
 
 def start_module():
@@ -141,8 +142,14 @@ def get_counts_by_manufacturers(table):
 def get_average_by_manufacturer(table, manufacturer):
     number_of_games = 0
     total_games = 0
-    for i in range(len(table)):
-        if table[i][2] == manufacturer:
-            number_of_games += 1
-            total_games += int(table[i][4])
-    return total_games / number_of_games
+    result = 0
+    try:
+        for i in range(len(table)):
+            if table[i][2] == manufacturer:
+                number_of_games += 1
+                total_games += int(table[i][4])
+        result = total_games / number_of_games
+    except ZeroDivisionError:
+        msg = "Manufacturer has no games in the store."
+        ui.print_error_message(msg)
+    return result
