@@ -29,18 +29,6 @@ def send_table(table):
     data_manager.write_table_to_file(current_file_path + "/sellings.csv", table)
 
 
-def print_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
-    result = get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
-    label = "Titles sold during these dates:"
-    ui.print_result(result, label)
-
-
-def print_lowest_price_item(table):
-    result = get_lowest_price_item_id(table)
-    label = "ID of lowest priced item:"
-    ui.print_result(result, label)
-
-
 def choose_function(table):
     inputs = ui.get_inputs(["Choose menu: "], "")
     option = inputs[0]
@@ -60,9 +48,8 @@ def choose_function(table):
     elif option == "6":
         dates = get_dates()
         month_from = dates[0]
-        month_from = dates[0]
         day_from = dates[1]
-        year_from = (dates[2])
+        year_from = dates[2]
         month_to = dates[3]
         day_to = dates[4]
         year_to = dates[5]
@@ -169,23 +156,35 @@ def get_dates():
     return dates
 
 
+def print_lowest_price_item(table):
+    result = get_lowest_price_item_id(table)
+    label = "ID of lowest priced item:"
+    ui.print_result(result, label)
+
+
 # the question: Which items are sold between two given dates ? (from_date < birth_date < to_date)
 # return type: list of lists (the filtered table)
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
-    items = []
+    sold_items = []
     for t in table:
         if int(t[5]) > int(str(year_from)) and int(t[5]) < int(str(year_to)):
-            items.append(t)
+            sold_items.append(t)
         if (int(t[5]) == int(str(year_from))) or (int(t[5]) == int(str(year_to))):
             if int(t[3]) > int(month_from) and int(t[3]) < int(month_to):
-                items.append(t)
+                sold_items.append(t)
             if (int(t[3]) == int(str(month_from))) or (int(t[3]) == int(str(month_to))):
                 if int(t[4]) > int(day_from) and int(t[4]) < int(day_to):
-                    items.append(t)
-    result = []
-    for t in range(len(items)):
-        items[t][2] = int(items[t][2])
-        items[t][3] = int(items[t][3])
-        items[t][4] = int(items[t][4])
-        items[t][5] = int(items[t][5])
-    return items
+                    sold_items.append(t)
+    for t in range(len(sold_items)):
+        sold_items[t][2] = int(sold_items[t][2])
+        sold_items[t][3] = int(sold_items[t][3])
+        sold_items[t][4] = int(sold_items[t][4])
+        sold_items[t][5] = int(sold_items[t][5])
+    result = sold_items
+    return result
+
+
+def print_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
+    result = get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
+    label = "Items sold during these dates:"
+    ui.print_result(result, label)
