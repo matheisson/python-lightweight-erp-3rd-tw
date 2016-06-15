@@ -44,8 +44,10 @@ def choose_function(table):
         update(table, id_)
     elif option == "5":
         get_oldest_person(table)
+        print_oldest_person(table)
     elif option == "6":
         get_persons_closest_to_average(table)
+        print_get_persons(table)
     elif option == "0":
         return "break"
     else:
@@ -68,11 +70,11 @@ def start_module():
             ui.print_error_message(err)
 
 
-
 def show_table(table):
     title_list = ["ID\t", "Name\t", "Age\t"]
     solution = data_manager.get_table_from_file(file_name)
     ui.print_table(table, title_list)
+
 
 # Ask a new record as an input from the user than add it to @table, than return @table
 #
@@ -100,7 +102,7 @@ def remove(table, id_):
 # @id_: string
 def update(table, id_):
     id_ = common.get_id()
-    list_labels = ["ID", "Name", "Year"]
+    list_labels = ["Name", "Birth year"]
     title = "Update record"
     rec_upd = ui.get_inputs(list_labels, title)
     common.update_table(table, id_, rec_upd)
@@ -132,6 +134,11 @@ def get_oldest_person(table):
     return result
 
 
+def print_oldest_person(table):
+    result = get_oldest_person(table)
+    label = ""
+    ui.print_result(result, label)
+
 
 # the question: Who is the closest to the average age ?
 # return type: list of strings (name or names if there are two more with the same value)
@@ -139,7 +146,7 @@ def get_persons_closest_to_average(table):
     years = []
     names = []
     avg = 0
-    #calc average
+    # calc average
     for line in table:
         name = line[1]
         names.append(name)
@@ -148,7 +155,7 @@ def get_persons_closest_to_average(table):
     for i in years:
         avg += i
     avg = int(avg / len(table))
-    #calc closest
+    # calc closest
     closest = years[0]
     for i in range(len(years)):
         if abs(years[i] - avg) < closest:
@@ -158,3 +165,9 @@ def get_persons_closest_to_average(table):
         elif abs(years[i] - avg) == closest:
             result.append(names[i])
     return result
+
+
+def print_get_persons(table):
+    result = get_persons_closest_to_average(table)
+    label = ""
+    ui.print_result(result, label)

@@ -27,11 +27,23 @@ def print_table(table, title_list):
     lenght = get_column_lenght(table, title_list)
     print()
     for i in range(len(title_list)):
-        print(" " * (lenght[i] - len(title_list[i])) + title_list[i], end=" ")
+        if (lenght[i] - len(title_list[i])) % 2 == 0:
+            print(" " * int((lenght[i] - len(title_list[i]))/2) + title_list[i] +
+                  " " * int((lenght[i] - len(title_list[i]))/2), end=" ")
+        else:
+            print(" " * int((lenght[i] - len(title_list[i]))/2) + title_list[i] +
+                  " " * int((lenght[i] - len(title_list[i]))/2 + 1), end=" ")
+    print()
     for i in range(len(table)):
         print()
         for j in range(len(title_list)):
-            print(" " * (lenght[j] - len(table[i][j])) + table[i][j], end=" ")
+            if (lenght[j] - len(table[i][j])) % 2 == 0:
+                print(" " * int((lenght[j] - len(table[i][j]))/2) + table[i][j] +
+                      " " * int((lenght[j] - len(table[i][j]))/2), end=" ")
+            else:
+                print(" " * int((lenght[j] - len(table[i][j]))/2) + table[i][j] +
+                      " " * int((lenght[j] - len(table[i][j]))/2 + 1), end=" ")
+    print()
 
 
 # This function needs to print result of the special functions
@@ -58,6 +70,7 @@ def print_result(result, label):
 def print_menu(title, list_options, exit_message):  # working
     print()
     print(title)
+    print()
     for i in range(len(list_options)):
         print("(%d) %s" % (((i+1) % 7), list_options[i]))
     print("(0) %s" % exit_message)

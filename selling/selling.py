@@ -45,6 +45,14 @@ def choose_function(table):
     elif option == "5":
         get_lowest_price_item_id(table)
     elif option == "6":
+        dates = get_dates()
+        month_from = dates[0]
+        month_from = dates[0]
+        day_from = dates[1]
+        year_from = (dates[2])
+        month_to = dates[3]
+        day_to = dates[4]
+        year_to = dates[5]
         get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
     elif option == "0":
         return "break"
@@ -125,28 +133,43 @@ def get_lowest_price_item_id(table):
     prices = []
     for t in table:
         prices.append(t[2])
-    new_list = []
-
+    sortprices = []
     while prices:
-        minimum = prices[0]  # arbitrary number in list
+        minimum = prices[0]
         for x in prices:
             if x < minimum:
                 minimum = x
-        new_list.append(minimum)
+        sortprices.append(minimum)
         prices.remove(minimum)
-    lowest = min(new_list)
+    lowest = min(sortprices)
     for t in table:
         if t[2] == lowest:
             result = t[0]
-    label = "ID of lowest priced item:"  # just one, not the first - alphabetical order needed
+    label = "ID of lowest priced item:"
     ui.print_result(result, label)
     return result
+
+
+def get_dates():
+    list_labels = ["month from", "day from", "year from", "month to", "day to", "year to"]
+    title = "Which items are sold between two given dates?"
+    dates = ui.get_inputs(list_labels, title)
+    return dates
 
 
 # the question: Which items are sold between two given dates ? (from_date < birth_date < to_date)
 # return type: list of lists (the filtered table)
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
-
-    # your code
-
-    pass
+    items = []
+    for t in table:
+        if int(t[5]) >= int(str(year_from)) and int(t[5]) < int(str(year_to)):
+            # items.append(t)
+            if int(t[4]) >= int(month_from) and int(t[4]) < int(month_to):
+                if int(t[3]) >= int(day_from) and int(t[3]) < int(day_to):
+                    items.append(t)
+    result = []
+    for t in items:
+        result.append(t[1])
+    label = "Titles sold during these dates:"
+    ui.print_result(result, label)
+    return result

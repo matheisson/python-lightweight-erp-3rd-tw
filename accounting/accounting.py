@@ -124,10 +124,10 @@ def which_year_max(table):
     t_income = {}
     t_outcome = {}
     for t in table:
-        if t[4] == "in":
+        if t[4] == "in":  # t[4] shows whether it is income or outcome
             year = t[3]
             if year in t_income:
-                t_income[year] += int(t[5])
+                t_income[year] += int(t[5])  # adds or increases income, per year
             else:
                 t_income.update({year: int(t[5])})
         elif t[4] == "out":
@@ -145,12 +145,13 @@ def which_year_max(table):
                 minimum = x
         sortkeys.append(minimum)
         keys.remove(minimum)
-    profit = [(t_income.get(sortkeys[0]) - t_outcome.get(sortkeys[0])), (t_income.get(sortkeys[1]) - t_outcome.get(sortkeys[1]))]
+    profit = []
+    for key in sortkeys:
+        profit.append(t_income.get(key) - t_outcome.get(key))
     max_profit = max(profit)
-    if max_profit == profit[0]:
-        result = int(sortkeys[0])
-    elif max_profit == profit[1]:
-        result = int(sortkeys[0])
+    for p in range(len(profit)):
+        if max_profit == profit[p]:
+            result = int(sortkeys[p])
     label = "Highest profit in:"
     ui.print_result(result, label)
     return result
