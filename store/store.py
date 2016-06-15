@@ -49,7 +49,7 @@ def choose_function(table):
     elif option == "6":
         manufacturer = get_manufacturer()
         result = get_average_by_manufacturer(table, manufacturer)
-        if result != None:
+        if result is not None:
             ui.print_result(result, "")
     elif option == "0":
         return "break"
