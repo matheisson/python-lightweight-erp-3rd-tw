@@ -88,9 +88,8 @@ def add(table):
 # @table: list of lists
 # @id_: string
 def remove(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    common.remove_table(table, id_)
     return table
 
 
@@ -100,9 +99,11 @@ def remove(table, id_):
 # @table: list of lists
 # @id_: string
 def update(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    list_labels = ["ID", "Name", "Year"]
+    title = "Update record"
+    rec_upd = ui.get_inputs(list_labels, title)
+    common.update_table(table, id_, rec_upd)
     return table
 
 
