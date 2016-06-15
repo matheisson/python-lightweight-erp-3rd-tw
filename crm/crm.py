@@ -24,7 +24,7 @@ def get_table():
 
 
 def send_table(table):
-    data_manager.write_table_to_file(current_file_path + "/items.csv", table)
+    data_manager.write_table_to_file(current_file_path + "/customers.csv", table)
 
 
 def choose_function(table):
