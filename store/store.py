@@ -49,7 +49,8 @@ def choose_function(table):
     elif option == "6":
         manufacturer = get_manufacturer()
         result = get_average_by_manufacturer(table, manufacturer)
-        ui.print_result(result, "")
+        if result != None:
+            ui.print_result(result, "")
     elif option == "0":
         return "break"
     else:
@@ -149,7 +150,7 @@ def get_average_by_manufacturer(table, manufacturer):
                 number_of_games += 1
                 total_games += int(table[i][4])
         result = total_games / number_of_games
+        return result
     except ZeroDivisionError:
         msg = "Manufacturer has no games in the store."
         ui.print_error_message(msg)
-    return result

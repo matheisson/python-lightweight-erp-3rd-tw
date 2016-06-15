@@ -19,13 +19,12 @@ data_manager = SourceFileLoader("data_manager", current_file_path + "/../data_ma
 common = SourceFileLoader("common", current_file_path + "/../common.py").load_module()
 
 
-# start this module by a module menu like the main menu
-# user need to go back to the main menu from here
-# we need to reach the default and the special functions of this module from the module menu
-#
-
 def get_table():
     return data_manager.get_table_from_file(current_file_path + "/customers.csv")
+
+
+def send_table(table):
+    data_manager.write_table_to_file(current_file_path + "/items.csv", table)
 
 
 def choose_function(table):
@@ -43,12 +42,18 @@ def choose_function(table):
         update(table, id_)
     elif option == "5":
         get_longest_name_id(table)
+        print_get_longest_name_id(table)
     elif option == "6":
         get_subscribed_emails(table)
+        print_get_subscribed_emails(table)
     elif option == "0":
         return "break"
     else:
         raise KeyError("There is no such option.")
+
+# start this module by a module menu like the main menu
+# user need to go back to the main menu from here
+# we need to reach the default and the special functions of this module from the module menu
 
 
 def start_module():
@@ -58,6 +63,7 @@ def start_module():
     exit_message = "Back to Main Menu"
     table = get_table()
     while True:
+        send_table(table)
         ui.print_menu(title, list_options, exit_message)
         try:
             valid = choose_function(table)
@@ -91,22 +97,26 @@ def add(table):
 #
 # @table: list of lists
 # @id_: string
+
+
 def remove(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    common.remove_table(table, id_)
     return table
-
 
 # Update the record in @table having the id @id_ by asking the new data from the user,
 # than return @table
 #
 # @table: list of lists
 # @id_: string
+
+
 def update(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    list_labels = ["ID", "Name", "Email", "Subscribed(yes=1/no=0)"]
+    title = "Update record"
+    rec_upd = ui.get_inputs(list_labels, title)
+    common.update_table(table, id_, rec_upd)
     return table
 
 
@@ -123,13 +133,20 @@ def get_longest_name_id(table):
     max_names = max(len(i) for i in names)  # how long is the longest name
     longest_names = [i for i in names if len(i) == max_names]  # customers with the longest names
     top_name = min(longest_names)
-    max_id = []
+    max_id_lst = []
     for row in table:
         if top_name in row:
-            max_id.append(row[0])
+            max_id_lst.append(row[0])
+    max_id = max_id_lst[0]  # get a string instead of a list to match with test.py result
     label = "ID of customer with longest name: "
-    ui.print_result(max_id, label)
+    result = max_id
     return max_id
+
+
+def print_get_longest_name_id(table):
+    result = get_longest_name_id(table)
+    label = ""
+    ui.print_result(result, label)
 
 # the question: Which customers have subscribed to the newsletter?
 # return type: list of string (where string is like email+separator+name, separator=";")
@@ -143,5 +160,11 @@ def get_subscribed_emails(table):
         if int(i[3]) == 1:
             subscribed.append("{0};{1}".format(i[2], i[1]))
     label = "Subscribed Customers: "
-    ui.print_result(subscribed, label)
-    return subscribed
+    result = subscribed
+    return result
+
+
+def print_get_subscribed_emails(table):
+    result = get_subscribed_emails(table)
+    label = ""
+    ui.print_result(result, label)

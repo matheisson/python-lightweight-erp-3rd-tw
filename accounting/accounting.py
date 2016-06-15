@@ -43,9 +43,11 @@ def choose_function(table):
         update(table, id_)
     elif option == "5":
         which_year_max(table)
+        print_which_year_max(table)
     elif option == "6":
         year = get_year()
         avg_amount(table, year)
+        print_avg_amount(table, year)
     elif option == "0":
         return "break"
     else:
@@ -152,8 +154,6 @@ def which_year_max(table):
     for p in range(len(profit)):
         if max_profit == profit[p]:
             result = int(sortkeys[p])
-    label = "Highest profit in:"
-    ui.print_result(result, label)
     return result
 
 
@@ -163,6 +163,12 @@ def get_year():
     year = ui.get_inputs(list_labels, title)
     year = int(year[0])
     return year
+
+
+def print_which_year_max(table):
+    result = which_year_max(table)
+    label = "Highest profit in:"
+    ui.print_result(result, label)
 
 
 # the question: What is the average (per item) profit in a given year? [(profit)/(items count) ]
@@ -189,10 +195,13 @@ def avg_amount(table, year):
     #     count_of_year += y
     try:
         result = profit / count_of_year
-        label = ""
-        ui.print_result(result, label)
         return result
     except ZeroDivisionError:
-        label = ""
-        result = "Year not found."
-        ui.print_result(result, label)
+        msg = "Year not found."
+        ui.print_error_message(msg)
+
+
+def print_avg_amount(table, year):
+    result = avg_amount(table, year)
+    label = ""
+    ui.print_result(result, label)

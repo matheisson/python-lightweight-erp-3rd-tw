@@ -44,8 +44,10 @@ def choose_function(table):
         update(table, id_)
     elif option == "5":
         get_oldest_person(table)
+        print_oldest_person(table)
     elif option == "6":
         get_persons_closest_to_average(table)
+        print_get_persons(table)
     elif option == "0":
         return "break"
     else:
@@ -68,11 +70,11 @@ def start_module():
             ui.print_error_message(err)
 
 
-
 def show_table(table):
     title_list = ["ID\t", "Name\t", "Age\t"]
     solution = data_manager.get_table_from_file(file_name)
     ui.print_table(table, title_list)
+
 
 # Ask a new record as an input from the user than add it to @table, than return @table
 #
@@ -88,9 +90,8 @@ def add(table):
 # @table: list of lists
 # @id_: string
 def remove(table, id_):
-
-    # your code
-
+    id_ = common.get_id()
+    common.remove_table(table, id_)     # Del persons
     return table
 
 
@@ -99,10 +100,12 @@ def remove(table, id_):
 #
 # @table: list of lists
 # @id_: string
-def update(table, id_):
-
-    # your code
-
+def update(table, id_):     # Update table
+    id_ = common.get_id()
+    list_labels = ["Name", "Birth year"]
+    title = "Update record"
+    rec_upd = ui.get_inputs(list_labels, title)
+    common.update_table(table, id_, rec_upd)
     return table
 
 
@@ -112,24 +115,29 @@ def update(table, id_):
 # the question: Who is the oldest person ?
 # return type: list of strings (name or names if there are two more with the same value)
 def get_oldest_person(table):
-    sol = []
+    solution = []
     names = []
     result = []
     for line in table:
-        years = line[2]
-        name = line[1]
+        years = line[2]     # Birth years
+        name = line[1]      # Names
         names.append(name)
-        sol.append(int(years))
-    min_ = sol[0]
-    for i in range(len(sol)):
-        if sol[i] < min_:
-            min_ = sol[i]
+        solution.append(int(years))
+    min_ = solution[0]
+    for i in range(len(solution)):  # Iterate trough the list, comparing values to find the smallest
+        if solution[i] < min_:
+            min_ = solution[i]
             result = []
             result.append(names[i])
-        elif sol[i] == min_:
+        elif solution[i] == min_:  # If there are more persons with the same age, add the also!
             result.append(names[i])
     return result
 
+
+def print_oldest_person(table):
+    result = get_oldest_person(table)
+    label = ""
+    ui.print_result(result, label)
 
 
 # the question: Who is the closest to the average age ?
@@ -137,23 +145,29 @@ def get_oldest_person(table):
 def get_persons_closest_to_average(table):
     years = []
     names = []
-    avg = 0
-    #calc average
+    average = 0
+    # calc average
     for line in table:
-        name = line[1]
+        name = line[1] # Column of names.
         names.append(name)
-        year = line[2]
+        year = line[2] # Col of b.years
         years.append(int(year))
     for i in years:
-        avg += i
-    avg = int(avg / len(table))
-    #calc closest
+        average += i
+    average = int(average / len(table))
+    # calc closest
     closest = years[0]
     for i in range(len(years)):
-        if abs(years[i] - avg) < closest:
-            closest = abs(years[i] - avg)
+        if abs(years[i] - average) < closest: # The person who closest to average has the smallest absolut value from average
+            closest = abs(years[i] - average)
             result = []
             result.append(names[i])
-        elif abs(years[i] - avg) == closest:
+        elif abs(years[i] - average) == closest: #if there are more persons, append the names list w/ them
             result.append(names[i])
     return result
+
+
+def print_get_persons(table):
+    result = get_persons_closest_to_average(table)
+    label = ""
+    ui.print_result(result, label)
